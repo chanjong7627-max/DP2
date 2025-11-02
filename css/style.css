@@ -129,13 +129,14 @@
 
     .desc {
       margin-top: 12px;
-      color: #a9abb3;
+      color: #d7d9e0;
       font-size: 15px;
       max-width: 1000px;
-      opacity: calc(var(--p));
+      /* opacity: calc(var(--p)); */
       transform: translateY(calc((1 - var(--p))*30px));
       transition: opacity .4s ease, transform .4s ease;
       line-height: 1.6;
+      z-index: 12345;
     }
     
     .button {
