@@ -1,0 +1,281 @@
+@charset "utf-8";
+
+.hud {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 40;
+      pointer-events: none
+    }
+
+    .hud .title {
+      font-weight: 700;
+      font-size: clamp(18px, 2.2vw, 28px);
+      opacity: .9;
+      transition: opacity .5s ease;
+    }
+
+    .dots {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 40;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #6b7280;
+      opacity: .4;
+      cursor: pointer;
+      transition: transform .3s ease, opacity .3s ease, background .3s ease
+    }
+
+    .dot.active {
+      opacity: 1;
+      transform: scale(1.6);
+      background: #e5e7eb
+    }
+
+    section.scene {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      perspective: 1000px;
+      transition: background-color 1s ease, transform 1s ease;
+    }
+
+    canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      transform: translateZ(0);
+    }
+
+    .info {
+      position: absolute;
+      left: 8vw;
+      right: 8vw;
+      bottom: 18vh;
+      z-index: 2;
+      transition: opacity .3s ease, transform .3s ease, filter .3s ease;
+    }
+
+    .scene.active .info {
+      transform: translateY(0);
+      opacity: 1;
+      filter: blur(0);
+      will-change: transform, opacity;
+    }
+
+    .scene:not(.active) .info {
+      transform: translateY(60px);
+      opacity: 0;
+      filter: blur(6px);
+    }
+
+    .kicker {
+      font-size: 12px;
+      letter-spacing: .12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      opacity: 0.7;
+      mix-blend-mode: overlay;
+    }
+
+    .name {
+      font-size: clamp(40px, 5vw, 90px);
+      font-weight: 800;
+      line-height: 1;
+      position: relative;
+      letter-spacing: -.02em;
+      color: var(--muted);
+      transform: translateX(calc((1 - var(--p)) * -40px));
+      opacity: calc(var(--p));
+      transition: transform .4s ease-out, opacity .4s ease-out;
+    }
+
+    .name::after{
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        color: var(--accent);
+        clip-path: inset(0 150% 0 0);
+        transition: clip-path 1.2s ease-out;
+    }
+    .scene.active .name::after {
+      clip-path: inset(0 0 0 0);
+    }
+
+    .meta {
+      margin-top: 8px;
+      color: #bcbec4;
+      font-size: 14px;
+      opacity: calc(var(--p));
+      transform: translateY(calc((1 - var(--p))*20px));
+      transition: opacity .4s ease, transform .4s ease;
+    }
+
+    .desc {
+      margin-top: 12px;
+      color: #a9abb3;
+      font-size: 15px;
+      max-width: 1000px;
+      opacity: calc(var(--p));
+      transform: translateY(calc((1 - var(--p))*30px));
+      transition: opacity .4s ease, transform .4s ease;
+      line-height: 1.6;
+    }
+    
+    .button {
+        display: block;
+        margin-top: 15px;
+        width: 60px;
+        height: 40px;
+        background-color: rgba(77, 77, 77, 0.41);
+        border-radius: 12px;
+        position: relative;
+        border: 1px solid #c9cad1;
+    }
+    .button:hover{
+        border-radius: #fff;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    .button a{
+        color: #ffffff;
+        font-size: 13px;
+        /* background-color: red; */
+        text-decoration: none;
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .center {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center
+    }
+
+    .intro-title {
+      font-size: clamp(48px, 8vw, 140px);
+      font-weight: 900;
+      letter-spacing: -.03em;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .intro-sub {
+      margin-top: 10px;
+      color: #c9cad1;
+      opacity: 0;
+      transform: translateY(60px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+    }
+
+    #intro.active .intro-title,
+    #intro.active .intro-sub {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #outro.active .intro-title,
+    #outro.active .intro-sub {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scene{position: relative;}
+    .scene .box{
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 300px;
+        z-index: 124;
+        pointer-events: none; /* 클릭 방해 안 하게 */
+        background: linear-gradient(to bottom, rgb(0, 0, 0) 0%, transparent 100%);
+    }
+    .scene .box2{
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 300px;
+        z-index: 124;
+        pointer-events: none; /* 클릭 방해 안 하게 */
+        background: linear-gradient(to top, rgb(0, 0, 0) 0%, transparent 100%);
+    }
+
+
+    .vignette {
+      position: absolute;
+      inset: -10%;
+      pointer-events: none;
+      background: radial-gradient(70% 70% at 50% 50%, transparent 50%, rgba(0, 0, 0, .45) 100%);
+      z-index: 1
+    }
+
+    .scroll-hint {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      color: #a9abb3;
+      opacity: .6;
+      animation: hint 2s infinite ease-in-out;
+    }
+
+    @keyframes hint {
+
+      0%,
+      100% {
+        transform: translate(-50%, 0);
+      }
+
+      50% {
+        transform: translate(-50%, -6px);
+      }
+    }
+
+
+/* scroll sync video */
+.scene video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: 0;
+  filter: brightness(0.7) contrast(1.1) saturate(0.9);
+}
+
+.scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 60% 60%, transparent 40%, rgba(0,0,0,0.35) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+.info {
+  z-index: 2;
+}
