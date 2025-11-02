@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+/* Roboto (Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap');
+
+/* Pretendard 로컬 호스팅 */
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/fonts/Pretendard-Regular.woff2') format('woff2'),
+       url('/fonts/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
