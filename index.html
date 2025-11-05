@@ -106,7 +106,8 @@
                 <div class="kicker">TAPPLOCK ONE</div>
                 <div class="name" data-text="지문으로 여는 자물쇠">지문으로 여는 자물쇠</div>
                 <div class="meta">2016 · $99</div>
-                <div class="desc">물리적인 열쇠를 꺼내 자물쇠와 상호작용하는 직관적인 해제 동작, 현대의 생체 인식 스캐닝 기술과 결합되면서</br> 자물쇠 본체에 키 대신 손 끝을 접촉하는 행위만으로 즉시 잠금이 해제되는 즉각적인 사용 경험</div>
+                <div class="desc">물리적인 열쇠를 꺼내 자물쇠 구멍에 넣던 직관적인 해제 동작, </br>현대의 생체 인식 스캐닝 기술과
+                    자물쇠 본체에 접촉하는 행위만으로 즉시 잠금이 해제되는 즉각적인 사용 경험</div>
                 <div class="button"><a href="https://tapplock.com/oneplus/" target="_blank">Link</a></div>
             </div>
             <div class="box2"></div>
@@ -121,8 +122,7 @@
                 <div class="kicker">ROTARY CELLPHONE</div>
                 <div class="name" data-text="다이얼 휴대폰">다이얼 휴대폰</div>
                 <div class="meta">2020 · $390</div>
-                <div class="desc">전화기 다이얼의 구멍에 손가락을 걸어 번호를 돌리던 그 기계적인 감각을 그대로 구현,</br>현대의 4G 셀룰러 통신 기술과 휴대용 배터리와 결합되면서도
-                    </br>복잡한 터치스크린이나 불필요한 알림 없이 오직 전화를 거는 행위에만 집중</div>
+                <div class="desc">전화기 다이얼의 구멍에 손가락을 걸어 번호를 돌리던 그 기계적인 감각을 그대로 구현,</br>구시대의 아날로그 전화기와 현대의 이동식 4G 셀룰러 통신 기술과 결합</div>
                 <div class="button"><a href="https://www.designnest.com/Project/2p2g6c01y3nn/Rotary-Cell-Phone"
                         target="_blank">Link</a></div>
             </div>
@@ -173,7 +173,7 @@
                 <div class="kicker">BRITZ - BZ-TP1000</div>
                 <div class="name" data-text="턴테이블 외형의 블루투스 스피커">턴테이블 외형의 블루투스 스피커</div>
                 <div class="meta">2022 · $83</div>
-                <div class="desc">레코드가 회전하며 음악이 흘러나오는 그 시각적 경험과 특유의 따듯한 사운드.</br>그리고 LP판과 스마트폰의 디지털 음원을 모두 즐기고자 하는 사용자들을
+                <div class="desc">레코드가 회전하며 음악이 흘러나오는 그 시각적 경험과 특유의 따듯한 사운드.</br>그리고 LP의 무드와 디지털 음원을 모두 즐기고자 하는 사용자들을
                     위한 스피커</div>
                 <div class="button"><a href="https://britz.co.kr/product/view.html?from=new&p_no=1053&p="
                         target="_blank">Link</a></div>
@@ -191,7 +191,7 @@
                 <div class="name" data-text="자동 플립 탁상 시계">자동 플립 탁상 시계</div>
                 <div class="meta">2024 · $24</div>
                 <div class="desc">현대의 정확한 쿼츠 무브먼트 기술과 결합되면서도 </br>숫자판이 '찰칵' 소리를 내며 물리적으로 넘어가는 특유의 시각적 경험, 아날로그 감성의
-                    소리,그리고 감각적인 뉴트로 디자인</div>
+                    소리, 그리고 감각적인 뉴트로 디자인</div>
                 <div class="button"><a
                         href="https://www.amazon.com/mooas-Vintage-Battery-Internal-Operated/dp/B07PYN9YZN?th=1"
                         target="_blank">Link</a></div>
@@ -216,82 +216,79 @@
 
 
     <script>
-  const clamp = (n, min = 0, max = 1) => Math.max(min, Math.min(max, n));
-  const scenes = [...document.querySelectorAll('.scene')];
-  const dotsWrap = document.getElementById('dots');
 
-  scenes.forEach((_, i) => {
-    if (i > 0 && i < scenes.length - 1) {
-      const d = document.createElement('div');
-      d.className = 'dot';
-      d.dataset.idx = i;
-      dotsWrap.appendChild(d);
-    }
-  });
-  const dots = [...document.querySelectorAll('.dot')];
+        const clamp = (n, min = 0, max = 1) => Math.max(min, Math.min(max, n));
+        const scenes = [...document.querySelectorAll('.scene')];
+        const dotsWrap = document.getElementById('dots');
 
- function update() {
-  const vh = window.innerHeight;
-  let activeIndex = -1;
 
-  scenes.forEach((sec, i) => {
-    const rect = sec.getBoundingClientRect();
-    const centerOffset = vh * 0.5;
+        scenes.forEach((_, i) => {
+            if (i > 0 && i < scenes.length - 1) {
+                const d = document.createElement('div');
+                d.className = 'dot';
+                d.dataset.idx = i;
+                dotsWrap.appendChild(d);
+            }
+        });
+        const dots = [...document.querySelectorAll('.dot')];
 
-    
-    const rawRatio = (centerOffset - rect.top) / rect.height;
-    const videoP = clamp(rawRatio, 0, 1);
 
-  
-    const textP = Math.max(0, 1 - Math.abs(videoP - 0.5) * 2);
+        function update() {
+            const vh = window.innerHeight;
+            let activeIndex = -1;
 
-    
-    sec.style.setProperty('--p', textP.toFixed(3));
+            scenes.forEach((sec, i) => {
+                const rect = sec.getBoundingClientRect();
+                const ratio = (vh - rect.top) / vh;
+                const p = clamp(ratio, 0, 1);
+                sec.style.setProperty('--p', p.toFixed(3));
 
-   
-    if (textP > 0.0 && textP <= 1) sec.classList.add('active');
-    else sec.classList.remove('active');
 
-    if (textP > 0.5) activeIndex = i;
+                if (p > 0.05 && p <= 1) sec.classList.add('active');
+                else sec.classList.remove('active');
 
-   
-    const video = sec.querySelector('video');
-    if (video && video.readyState >= 2 && video.duration > 0) {
-      if (videoP > 0.0 && videoP < 0.95) {
-        video.currentTime = video.duration * videoP;
-      }
-    }
-  });
+                if (p > 0.5) activeIndex = i;
 
-  dots.forEach((dot, i) => dot.classList.toggle('active', i + 1 === activeIndex));
-}
 
-  dotsWrap.addEventListener('click', e => {
-    const target = e.target.closest('.dot');
-    if (!target) return;
-    const index = parseInt(target.dataset.idx);
-    const targetScene = scenes[index];
-    if (targetScene) {
-      window.scrollTo({ top: targetScene.offsetTop, behavior: 'smooth' });
-    }
-  });
+                const video = sec.querySelector('video');
+                if (video && video.readyState >= 2 && video.duration > 0) {
+                    video.currentTime = video.duration * p;
+                }
+            });
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const video = entry.target.querySelector('video');
-      if (entry.isIntersecting && video && video.preload !== 'auto') {
-        video.preload = 'auto';
-        video.load();
-      }
-    });
-  }, { threshold: 0.3 });
-  scenes.forEach((sec) => observer.observe(sec));
 
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
-</script>
+            dots.forEach((dot, i) => dot.classList.toggle('active', i + 1 === activeIndex));
+        }
 
+
+        dotsWrap.addEventListener('click', e => {
+            const target = e.target.closest('.dot');
+            if (!target) return;
+            const index = parseInt(target.dataset.idx);
+            const targetScene = scenes[index];
+            if (targetScene) {
+                window.scrollTo({ top: targetScene.offsetTop, behavior: 'smooth' });
+            }
+        });
+
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                const video = entry.target.querySelector('video');
+                if (entry.isIntersecting && video && video.preload !== 'auto') {
+                    video.preload = 'auto';
+                    video.load();
+                }
+            });
+        }, { threshold: 0.3 });
+        scenes.forEach((sec) => observer.observe(sec));
+
+
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+
+    </script>
 
 
 </body>
