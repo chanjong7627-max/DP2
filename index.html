@@ -74,7 +74,7 @@
                 <div class="kicker">QWERKY WRITER</div>
                 <div class="name" data-text="타자기의 감성을 담은 블루투스 키보드">타자기의 감성을 담은 블루투스 키보드</div>
                 <div class="meta">2016 · $253</div>
-                <div class="desc">클래식한 타자감의 재해석, 알루미늄 노브의 클릭감</div>
+                <div class="desc">타자기에서 줄을 바꿀 때 사용했던 리턴 레버를 그대로 구현, 현대의 디지털 기기와 호환되면서도</br> 타자기의 촉감, 소리, 그리고 묵직한 디자인을 그리워하는 사용자들을 위한 제품</div>
                 <div class="button"><a href="https://www.qwerkywriter.com/collections/frontpage"
                         target="_blank">Link</a></div>
             </div>
@@ -91,7 +91,7 @@
                 <div class="name" data-text="디지털에서 느끼는 종이 감촉">디지털에서 느끼는 종이 감촉</div>
                 <div class="meta">2017 · $30</div>
                 <div class="desc">종이 위에 연필이나 펜으로 글씨를 쓰던 '사각'거리는 마찰감을 구현. 현대의 매끄러운 디지털 스타일러스 펜으로 아날로그 필기감</br> 그리고 미끄러짐
-                    없이 정제된 선을 그리고자 하는 사용자들을 위해 탄생</div>
+                    없이 정제된 선을 그리고자 하는 사용자들을 위한 제품</div>
                 <div class="button"><a href="https://paperlike.kr/" target="_blank">Link</a></div>
             </div>
             <div class="box2"></div>
@@ -106,8 +106,7 @@
                 <div class="kicker">TAPPLOCK ONE</div>
                 <div class="name" data-text="지문으로 여는 자물쇠">지문으로 여는 자물쇠</div>
                 <div class="meta">2016 · $99</div>
-                <div class="desc">물리적인 열쇠를 꺼내 자물쇠 구멍에 넣던 직관적인 해제 동작, </br>현대의 생체 인식 스캐닝 기술과
-                    자물쇠 본체에 접촉하는 행위만으로 즉시 잠금이 해제되는 즉각적인 사용 경험</div>
+                <div class="desc">물리적인 열쇠를 꺼내 자물쇠와 상호작용하는 직관적인 해제 동작, 현대의 생체 인식 스캐닝 기술과 결합되면서</br> 자물쇠 본체에 키 대신 손 끝을 접촉하는 행위만으로 즉시 잠금이 해제되는 즉각적인 사용 경험</div>
                 <div class="button"><a href="https://tapplock.com/oneplus/" target="_blank">Link</a></div>
             </div>
             <div class="box2"></div>
@@ -217,79 +216,82 @@
 
 
     <script>
+  const clamp = (n, min = 0, max = 1) => Math.max(min, Math.min(max, n));
+  const scenes = [...document.querySelectorAll('.scene')];
+  const dotsWrap = document.getElementById('dots');
 
-        const clamp = (n, min = 0, max = 1) => Math.max(min, Math.min(max, n));
-        const scenes = [...document.querySelectorAll('.scene')];
-        const dotsWrap = document.getElementById('dots');
+  scenes.forEach((_, i) => {
+    if (i > 0 && i < scenes.length - 1) {
+      const d = document.createElement('div');
+      d.className = 'dot';
+      d.dataset.idx = i;
+      dotsWrap.appendChild(d);
+    }
+  });
+  const dots = [...document.querySelectorAll('.dot')];
 
+ function update() {
+  const vh = window.innerHeight;
+  let activeIndex = -1;
 
-        scenes.forEach((_, i) => {
-            if (i > 0 && i < scenes.length - 1) {
-                const d = document.createElement('div');
-                d.className = 'dot';
-                d.dataset.idx = i;
-                dotsWrap.appendChild(d);
-            }
-        });
-        const dots = [...document.querySelectorAll('.dot')];
+  scenes.forEach((sec, i) => {
+    const rect = sec.getBoundingClientRect();
+    const centerOffset = vh * 0.5;
 
+    
+    const rawRatio = (centerOffset - rect.top) / rect.height;
+    const videoP = clamp(rawRatio, 0, 1);
 
-        function update() {
-            const vh = window.innerHeight;
-            let activeIndex = -1;
+  
+    const textP = Math.max(0, 1 - Math.abs(videoP - 0.5) * 2);
 
-            scenes.forEach((sec, i) => {
-                const rect = sec.getBoundingClientRect();
-                const ratio = (vh - rect.top) / vh;
-                const p = clamp(ratio, 0, 1);
-                sec.style.setProperty('--p', p.toFixed(3));
+    
+    sec.style.setProperty('--p', textP.toFixed(3));
 
+   
+    if (textP > 0.0 && textP <= 1) sec.classList.add('active');
+    else sec.classList.remove('active');
 
-                if (p > 0.05 && p <= 1) sec.classList.add('active');
-                else sec.classList.remove('active');
+    if (textP > 0.5) activeIndex = i;
 
-                if (p > 0.5) activeIndex = i;
+   
+    const video = sec.querySelector('video');
+    if (video && video.readyState >= 2 && video.duration > 0) {
+      if (videoP > 0.0 && videoP < 0.95) {
+        video.currentTime = video.duration * videoP;
+      }
+    }
+  });
 
+  dots.forEach((dot, i) => dot.classList.toggle('active', i + 1 === activeIndex));
+}
 
-                const video = sec.querySelector('video');
-                if (video && video.readyState >= 2 && video.duration > 0) {
-                    video.currentTime = video.duration * p;
-                }
-            });
+  dotsWrap.addEventListener('click', e => {
+    const target = e.target.closest('.dot');
+    if (!target) return;
+    const index = parseInt(target.dataset.idx);
+    const targetScene = scenes[index];
+    if (targetScene) {
+      window.scrollTo({ top: targetScene.offsetTop, behavior: 'smooth' });
+    }
+  });
 
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const video = entry.target.querySelector('video');
+      if (entry.isIntersecting && video && video.preload !== 'auto') {
+        video.preload = 'auto';
+        video.load();
+      }
+    });
+  }, { threshold: 0.3 });
+  scenes.forEach((sec) => observer.observe(sec));
 
-            dots.forEach((dot, i) => dot.classList.toggle('active', i + 1 === activeIndex));
-        }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+</script>
 
-
-        dotsWrap.addEventListener('click', e => {
-            const target = e.target.closest('.dot');
-            if (!target) return;
-            const index = parseInt(target.dataset.idx);
-            const targetScene = scenes[index];
-            if (targetScene) {
-                window.scrollTo({ top: targetScene.offsetTop, behavior: 'smooth' });
-            }
-        });
-
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                const video = entry.target.querySelector('video');
-                if (entry.isIntersecting && video && video.preload !== 'auto') {
-                    video.preload = 'auto';
-                    video.load();
-                }
-            });
-        }, { threshold: 0.3 });
-        scenes.forEach((sec) => observer.observe(sec));
-
-
-        window.addEventListener('scroll', update, { passive: true });
-        window.addEventListener('resize', update);
-        update();
-
-    </script>
 
 
 </body>
